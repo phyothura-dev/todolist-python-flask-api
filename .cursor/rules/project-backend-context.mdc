@@ -1,0 +1,30 @@
+---
+description: Core Flask backend context and conventions
+alwaysApply: true
+---
+
+# TodoList Flask Backend Context
+
+## Architecture
+- Use Flask Application Factory: `create_app()` in `app/__init__.py`.
+- Keep extension singletons in `app/extensions.py` and call `.init_app(app)` inside factory.
+- Use Blueprint routing:
+  - Auth: `app/routes/auth_routes.py` with `/api/auth`
+  - Tasks: `app/routes/task_routes.py` with `/api/tasks`
+- Keep business logic in `app/services/`; routes should stay thin.
+
+## Data and Infra
+- Stack: Python 3.11, Flask, SQLAlchemy, JWT, MySQL 8 (Docker Compose).
+- Models live in `app/models/` and import `db` from `app.extensions`.
+- For schema/model changes, run migrations: `flask db migrate` then `flask db upgrade`.
+
+## Implementation Conventions
+- New routes: add Blueprint in `app/routes/` and register in `app/__init__.py`.
+- New services: add in `app/services/` and call from routes.
+- New config keys: add to `app/config.py` with `os.getenv()` and define in `.env`.
+- New extensions: instantiate in `app/extensions.py`, initialize in factory.
+
+## Current Priority Risks
+- `run.py` currently empty; app entrypoint must call `create_app()`.
+- Never store plain text passwords; use secure hashing.
+- Protect task endpoints with JWT and scope data to authenticated user.
