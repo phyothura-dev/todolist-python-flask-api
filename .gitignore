@@ -2,12 +2,10 @@ venv/
 .venv/
 env/
 
-# Environment variables / secrets
 .env
 .env.*
 !.env.example
 
-# Python cache/artifacts
 __pycache__/
 *.py[cod]
 *.pyo
@@ -17,16 +15,12 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Build artifacts
 build/
 dist/
 *.egg-info/
 
-# IDE/editor
 .vscode/
 .idea/
 
-# OS files
 .DS_Store
 Thumbs.db
-
