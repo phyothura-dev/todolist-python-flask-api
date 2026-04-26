@@ -1,30 +1,39 @@
 # 📝 TodoList API — Flask Backend
 
-Todo List mobile app အတွက် RESTful API backend။ Flask + MySQL + JWT Authentication + Docker ဖြင့် တည်ဆောက်ထားပါသည်။
+Todo List mobile app အတွက် RESTful API backend။ Flask + PostgreSQL + JWT Authentication + Docker ဖြင့် တည်ဆောက်ထားပါသည်။
 
 ## Tech Stack
 
 - **Python 3.11** / **Flask**
-- **MySQL 8.0** (SQLAlchemy ORM)
+- **PostgreSQL 16** (SQLAlchemy ORM)
 - **JWT** (Flask-JWT-Extended)
 - **Docker** / Docker Compose
 
 ## Quick Start
 
 ```bash
-# Docker ဖြင့် run ရန်
+# With Docker
 docker-compose up --build
 
-# Local ဖြင့် run ရန်
+# With Local
 python -m venv venv && venv\Scripts\activate
 pip install -r requirements.txt
 python run.py
 ```
 
+## Database Migration
+
+```bash
+# With Local
+python manage.py migrate
+# With Docker
+docker compose exec web python manage.py migrate
+```
+
 ## Environment Variables (`.env`)
 
 ```env
-DATABASE_URL=mysql+pymysql://user:password@db:3306/tododb
+DATABASE_URL=postgresql+psycopg2://postgres:password@db:5432/todo_db
 JWT_SECRET_KEY=your_super_secret_key
 ```
 

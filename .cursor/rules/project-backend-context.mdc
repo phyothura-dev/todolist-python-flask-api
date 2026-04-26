@@ -14,7 +14,7 @@ alwaysApply: true
 - Keep business logic in `app/services/`; routes should stay thin.
 
 ## Data and Infra
-- Stack: Python 3.11, Flask, SQLAlchemy, JWT, MySQL 8 (Docker Compose).
+- Stack: Python 3.11, Flask, SQLAlchemy, JWT, Pgsql (Docker Compose).
 - Models live in `app/models/` and import `db` from `app.extensions`.
 - For schema/model changes, run migrations: `flask db migrate` then `flask db upgrade`.
 

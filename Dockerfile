@@ -6,5 +6,5 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-CMD ["python", "run.py"]
+CMD ["sh", "-c", "python manage.py migrate && python run.py"]
 
