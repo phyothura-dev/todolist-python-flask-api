@@ -7,6 +7,7 @@ Todo List mobile app အတွက် RESTful API backend။ Flask + PostgreSQL +
 - **Python 3.11** / **Flask**
 - **PostgreSQL 16** (SQLAlchemy ORM)
 - **JWT** (Flask-JWT-Extended)
+- **Flasgger** (Swagger UI for API docs)
 - **Docker** / Docker Compose
 
 ## Quick Start
@@ -47,6 +48,19 @@ JWT_SECRET_KEY=your_super_secret_key
 | `GET`    | `/api/tasks/`        | List all tasks      |
 | `PUT`    | `/api/tasks/<id>`    | Update task         |
 | `DELETE` | `/api/tasks/<id>`    | Delete task         |
+
+## API Documentation (Swagger UI)
+
+Run the server and open:
+
+- `http://localhost:5000/apidocs/` (Swagger UI)
+- `http://localhost:5000/apispec_1.json` (OpenAPI spec JSON)
+
+For protected task endpoints, click **Authorize** and set:
+
+```text
+Bearer <your_jwt_token>
+```
 
 ## Project Structure
 

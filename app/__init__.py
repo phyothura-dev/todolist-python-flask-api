@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from .extensions import db, migrate, jwt
+from .extensions import db, migrate, jwt, swagger
 from .routes.auth_routes import auth_bp
 from .routes.task_routes import task_bp
 
@@ -10,10 +10,16 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    swagger.init_app(app)
 
     @app.get("/")
     def root():
-        return jsonify({"message": "TodoList API is running"})
+        return jsonify(
+            {
+                "message": "TodoList API is running",
+                "docs": "/apidocs/",
+            }
+        )
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(task_bp, url_prefix="/api/tasks")

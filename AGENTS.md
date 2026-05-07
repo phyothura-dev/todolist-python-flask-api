@@ -1,8 +1,3 @@
----
-description: Core Flask backend context and conventions
-alwaysApply: true
----
-
 # TodoList Flask Backend Context
 
 ## Architecture

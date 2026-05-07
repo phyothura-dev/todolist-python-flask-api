@@ -4,38 +4,40 @@ from app.extensions import db
 
 def register_user(data):
     if not data:
-        return {"message": "Missing request body"}, 400
+        raise ValueError("Missing request body")
 
     username = data.get("username")
     password = data.get("password")
     password_confirm = data.get("password_confirm")
 
     if not username or not password or not password_confirm:
-        return {"message": "username, password and password_confirm are required"}, 400
+        raise ValueError("username, password and password_confirm are required")
+
 
     if password != password_confirm:
-        return {"message": "password and password_confirm do not match"}, 400
-
+        raise ValueError("password and password_confirm do not match")
+       
     existing_user = User.query.filter_by(username=username).first()
     if existing_user:
-        return {"message": "Username already exists"}, 409
+        raise FileExistsError("Username already exists")
 
-    user = User(username=username, password=password)
+    user = User(username=username)
+    user.set_password(password)
     db.session.add(user)
     db.session.commit()
-    return {"message": "User created"}, 201
+    return user
 
 def login_user(data):
     if not data:
-        return {"message": "Missing request body"}, 400
+        raise ValueError("Missing request body")
 
     username = data.get("username")
     password = data.get("password")
     if not username or not password:
-        return {"message": "username and password are required"}, 400
+        raise ValueError("username and password are required")
 
     user = User.query.filter_by(username=username).first()
-    if user and user.password == password:
+    if user and user.check_password(password):
         token = create_access_token(identity=str(user.id))
-        return {"message": "User logged in successfully","token": token}, 200
-    return {"message": "Invalid credentials"}, 401
+        return {"token": token, "user": user.to_dict()}
+    raise PermissionError("Invalid credentials")

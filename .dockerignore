@@ -1,11 +1,18 @@
+.git
+.gitignore
+.cursor
+
+# Python virtual environments
 venv/
 .venv/
 env/
 
+# Local environment files
 .env
 .env.*
 !.env.example
 
+# Python cache and tooling cache
 __pycache__/
 *.py[cod]
 *.pyo
@@ -15,13 +22,13 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
+# Build artifacts
 build/
 dist/
 *.egg-info/
 
+# editor
 .vscode/
 .idea/
-
 .DS_Store
 Thumbs.db
-.cursor/

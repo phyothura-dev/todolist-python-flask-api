@@ -6,72 +6,61 @@ def _current_user_id():
     identity = get_jwt_identity()
     try:
         return int(identity)
-    except (TypeError, ValueError):
-        return None
+    except Exception as error:
+        raise ValueError("Invalid token subject")
 
 def create_task(data):
     if not data or not data.get("title"):
-        return {"message": "title is required"}, 400
+        raise ValueError("title is required")
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
 
     task = Task(title=data["title"], user_id=user_id)
     db.session.add(task)
     db.session.commit()
-    return {"message": "Task created"}
+    return task
 
 def get_tasks():
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
     tasks = Task.query.filter_by(user_id=user_id, is_archived=False).all()
-    return [{"id": t.id, "title": t.title, "status": t.status} for t in tasks]
+    return tasks
 
 def update_task(id, data):
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
     task = Task.query.filter_by(id=id, user_id=user_id).first()
     if not task:
-        return {"message": "Task not found"}, 404
+        raise LookupError("Task not found")
 
+    data = data or {}
     task.title = data.get("title", task.title)
     db.session.commit()
-    return {"message": "Updated"}
+    return task
 
 def delete_task(id):
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
     task = Task.query.filter_by(id=id, user_id=user_id).first()
     if not task:
-        return {"message": "Task not found"}, 404
+        raise LookupError("Task not found")
 
     db.session.delete(task)
     db.session.commit()
-    return {"message": "Deleted"}
+    return {"deleted": True, "id": id}
 
 def toggle_status(id):
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
     task = Task.query.filter_by(id=id, user_id=user_id).first()
     if not task:
-        return {"message": "Task not found"}, 404
+        raise LookupError("Task not found")
 
     task.status = "completed" if task.status == "pending" else "pending"
     db.session.commit()
-    return {"message": "Status updated", "status": task.status}
+    return task
 
 def archive_task(id):
     user_id = _current_user_id()
-    if user_id is None:
-        return {"message": "Invalid token subject"}, 401
     task = Task.query.filter_by(id=id, user_id=user_id).first()
     if not task:
-        return {"message": "Task not found"}, 404
+        raise LookupError("Task not found")
 
     task.is_archived = True
     db.session.commit()
-    return {"message": "Task archived"}
+    return task
