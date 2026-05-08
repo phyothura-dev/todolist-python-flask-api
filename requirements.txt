@@ -6,3 +6,4 @@ flasgger
 python-dotenv
 psycopg2-binary
 cryptography
+Flask-Cors

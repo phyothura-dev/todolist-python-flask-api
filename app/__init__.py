@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from .extensions import db, migrate, jwt, swagger
+from .extensions import db, migrate, jwt, swagger, cors
 from .routes.auth_routes import auth_bp
 from .routes.task_routes import task_bp
 
@@ -11,6 +11,11 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     swagger.init_app(app)
+    cors.init_app(
+        app,
+        resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"].split(",")}},
+        supports_credentials=False,
+    )
 
     @app.get("/")
     def root():

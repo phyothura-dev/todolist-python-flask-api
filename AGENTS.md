@@ -28,7 +28,3 @@
 - Keep route handlers thin: parse request, call service, return `success(...)` in try block and `fail(...)` in except block.
 - When response shape changes, update both `app/response.py` and all impacted Swagger doc modules in `app/docs/`.
 - Keep service layer framework-light: avoid returning Flask response objects from services.
-
-## Current Priority Risks
-- Never store plain text passwords; use secure hashing.
-- Protect task endpoints with JWT and scope data to authenticated user.
