@@ -3,7 +3,13 @@ CREATE_TASK_DOC = {
     "summary": "Create task",
     "security": [{"Bearer": []}],
     "parameters": [
-        {"in": "header", "name": "Authorization", "required": True, "type": "string", "default": "Bearer <token>"},
+        {
+            "in": "header",
+            "name": "Authorization",
+            "required": True,
+            "type": "string",
+            "default": "Bearer <token>",
+        },
         {
             "in": "body",
             "name": "body",
@@ -26,7 +32,15 @@ GET_TASKS_DOC = {
     "tags": ["Tasks"],
     "summary": "Get all active tasks",
     "security": [{"Bearer": []}],
-    "parameters": [{"in": "header", "name": "Authorization", "required": True, "type": "string", "default": "Bearer <token>"}],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Authorization",
+            "required": True,
+            "type": "string",
+            "default": "Bearer <token>",
+        }
+    ],
     "responses": {200: {"description": "Task list"}, 500: {"description": "Error response"}},
 }
 
@@ -35,7 +49,13 @@ UPDATE_TASK_DOC = {
     "summary": "Update task",
     "security": [{"Bearer": []}],
     "parameters": [
-        {"in": "header", "name": "Authorization", "required": True, "type": "string", "default": "Bearer <token>"},
+        {
+            "in": "header",
+            "name": "Authorization",
+            "required": True,
+            "type": "string",
+            "default": "Bearer <token>",
+        },
         {"in": "path", "name": "id", "required": True, "type": "integer"},
         {
             "in": "body",
@@ -59,8 +79,31 @@ DELETE_TASK_DOC = {
     "summary": "Delete task",
     "security": [{"Bearer": []}],
     "parameters": [
-        {"in": "header", "name": "Authorization", "required": True, "type": "string", "default": "Bearer <token>"},
+        {
+            "in": "header",
+            "name": "Authorization",
+            "required": True,
+            "type": "string",
+            "default": "Bearer <token>",
+        },
         {"in": "path", "name": "id", "required": True, "type": "integer"},
     ],
-    "responses": {200: {"description": "Deleted"}, 500: {"description": "Error response"},},
+    "responses": {200: {"description": "Deleted"}, 500: {"description": "Error response"}},
+}
+
+ARCHIVE_TASK_DOC = {
+    "tags": ["Tasks"],
+    "summary": "Archive task",
+    "security": [{"Bearer": []}],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Authorization",
+            "required": True,
+            "type": "string",
+            "default": "Bearer <token>",
+        },
+        {"in": "path", "name": "id", "required": True, "type": "integer"},
+    ],
+    "responses": {200: {"description": "Archived"}, 500: {"description": "Error response"}},
 }

@@ -1,9 +1,15 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from flasgger import swag_from
-from app.services.task_service import create_task, get_tasks, update_task, delete_task
+from app.services.task_service import create_task, get_tasks, update_task, delete_task, archive_task
 from app.response import success, fail
-from app.docs.task_docs import CREATE_TASK_DOC, GET_TASKS_DOC, UPDATE_TASK_DOC, DELETE_TASK_DOC
+from app.docs.task_docs import (
+    CREATE_TASK_DOC,
+    GET_TASKS_DOC,
+    UPDATE_TASK_DOC,
+    DELETE_TASK_DOC,
+    ARCHIVE_TASK_DOC,
+)
 
 
 task_bp = Blueprint("tasks", __name__)
@@ -63,3 +69,14 @@ def delete(id):
         return success(result, "Deleted", 200)
     except Exception as error:
         return fail("Failed to delete task", 500, str(error))
+
+
+@task_bp.route("/<int:id>/archive", methods=["POST"])
+@jwt_required()
+@swag_from(ARCHIVE_TASK_DOC)
+def archive(id):
+    try:
+        task = archive_task(id)
+        return success(_serialize_task(task), "Archived", 200)
+    except Exception as error:
+        return fail("Failed to archive task", 500, str(error))
