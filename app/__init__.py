@@ -13,7 +13,7 @@ def create_app():
     swagger.init_app(app)
     cors.init_app(
         app,
-        resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"].split(",")}},
+        resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
         supports_credentials=False,
     )
 
